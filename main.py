@@ -8,7 +8,12 @@ def main(city):
 
 
 if __name__ == '__main__':
-    print("""Welcome to Weather APP
-    Please type your city below to the weather""")
-    city = input()
+    print(
+"""Welcome to the Weather App
+Please type your city below"""
+    )
+    city = input('> ').strip()
+    while not city:
+            print('Please type name of a city')
+            city = input('>').strip()
     main(city)
