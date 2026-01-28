@@ -29,14 +29,20 @@ def get_data(city):
 # print(json.dumps(data, indent = 2))
 
 def show_data(data):
-    print(f'''{data['resolvedAddress'].title()}
-    📅 Date: {data['days'][0]['datetime']}
-    🌡️  Now: {data['currentConditions']['temp']}°C (feels like {data['currentConditions']['feelslike']}°C)
-    🌡️  Today: {data['days'][0]['tempmin']}°C — {data['days'][0]['tempmax']}°C
-    ☁️   {data['days'][0]['conditions'].title()}
-    📝  {data['days'][0]['description'].title()}
-    🌅 Sunrise: {data['days'][0]['sunrise']} | 🌇 Sunset: {data['days'][0]['sunset']}
-    ''')
+    print(
+f'''{data['resolvedAddress'].title()}
+📅 Date: {data['days'][0]['datetime']}
+🌡️ Now: {data['currentConditions']['temp']}°C (feels like {data['currentConditions']['feelslike']}°C)
+🌡️ Today: {data['days'][0]['tempmin']}°C — {data['days'][0]['tempmax']}°C
+☁️ {data['days'][0]['conditions'].title()}
+📝 {data['days'][0]['description'].title()}
+🌅 Sunrise: {data['days'][0]['sunrise']} | 🌇 Sunset: {data['days'][0]['sunset']}'''
+)
+    
 
-data = get_data('almaty')
-show_data(data)
+def show_help():
+    return
+
+#data = get_data('almaty')
+#show_data(data)
+ 
