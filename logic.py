@@ -6,9 +6,17 @@ import json
 
 load_dotenv()
 
-def get_data(city):
-    url = f'https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/{city}?'
+def load_key():
     API = os.environ.get('API_KEY')
+    if not API:
+        raise ValueError('Api key doesnt exist in .env')
+    return API
+    
+    
+
+    
+def get_data(city, API):
+    url = f'https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/{city}?'
     params = {
         'unitGroup': 'metric',
         'include': 'days,current',

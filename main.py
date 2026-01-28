@@ -7,7 +7,12 @@ def main(city):
     if city == '/help':
         logic.show_help()
         return
-    data = logic.get_data(city)
+    try:
+        key = logic.load_key()
+    except ValueError as e:
+         print(e)
+         return
+    data = logic.get_data(city, key)
     logic.show_data(data)
     
 
