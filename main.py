@@ -2,6 +2,8 @@ import logic
 
 
 def main(city):
+    if city in 'q':
+         return
     data = logic.get_data(city)
     logic.show_data(data)
     
