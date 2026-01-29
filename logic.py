@@ -24,6 +24,8 @@ def get_data(city, API):
         'contentType': 'json'
     }
     response = requests.get(url, params=params)
+    if response.status_code == 401:
+        raise ValueError('Please check your API key correctness in .env')
     data = response.json()
     return data
 

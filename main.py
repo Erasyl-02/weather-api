@@ -9,10 +9,10 @@ def main(city):
         return
     try:
         key = logic.load_key()
+        data = logic.get_data(city, key)
     except ValueError as e:
          print(e)
          return
-    data = logic.get_data(city, key)
     logic.show_data(data)
     
 
