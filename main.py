@@ -10,7 +10,7 @@ def main(city):
     try:
         key = logic.load_key()
         data = logic.get_data(city, key)
-    except ValueError as e:
+    except (ValueError, ConnectionError) as e:
          print(e)
          return
     logic.show_data(data)

@@ -16,14 +16,19 @@ def load_key():
 
     
 def get_data(city, API):
-    url = f'https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/{city}?'
-    params = {
-        'unitGroup': 'metric',
-        'include': 'days,current',
-        'key': API,
-        'contentType': 'json'
-    }
-    response = requests.get(url, params=params, timeout=5)
+    try:
+        url = f'https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/{city}?'
+        params = {
+            'unitGroup': 'metric',
+            'include': 'days,current',
+            'key': API,
+            'contentType': 'json'
+        }
+        response = requests.get(url, params=params, timeout=5)
+    except requests.exceptions.ConnectionError:
+        raise ConnectionError('Please check your internet connection')
+    except requests.exceptions.RequestException:
+        raise ConnectionError('Issues with connection, try again later')
     if response.status_code == 200:
         return response.json()
     elif response.status_code == 401:
@@ -54,6 +59,6 @@ f'''{data['resolvedAddress'].title()}
 def show_help():
     return
 
-#data = get_data('almaty')
-#show_data(data)
+# data = get_data('almaty', load_key())
+# show_data(data)
  
