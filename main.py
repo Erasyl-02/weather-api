@@ -10,7 +10,7 @@ def main(city):
     try:
         key = logic.load_key()
         data = logic.get_data(city, key)
-    except (ValueError, ConnectionError) as e:
+    except (ValueError, ConnectionError, RuntimeError) as e:
          print(e)
          return
     logic.show_data(data)
@@ -20,7 +20,7 @@ def main(city):
 if __name__ == '__main__':
     print(
 """Welcome to the Weather App
-Please type your city below (or type /help for more)"""
+Please type your city below (or /help for more)"""
     )
     city = input('> ').strip()
     while not city:

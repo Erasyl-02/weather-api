@@ -29,12 +29,21 @@ def get_data(city, API):
         raise ConnectionError('Please check your internet connection')
     except requests.exceptions.RequestException:
         raise ConnectionError('Issues with connection, try again later')
+    
     if response.status_code == 200:
         return response.json()
+    elif response.status_code == 400:
+        raise ValueError('Please check correctness of the city name and try again')
     elif response.status_code == 401:
         raise ValueError('Please check your API key correctness in .env')
-    return
-
+    elif response.status_code == 404:
+        raise RuntimeError('Technical issue, try again later')
+    elif response.status_code == 429:
+        raise RuntimeError('Too many requests, try again later')
+    elif response.status_code == 500:
+        raise RuntimeError('Weather service is temporarily unavailable, try again later')
+    else:
+        raise RuntimeError('Unexpected error, weather service is temporarily unavailable, try again later')
 
 
 
