@@ -31,7 +31,12 @@ def get_data(city, API):
         raise ConnectionError('Issues with connection, try again later')
     
     if response.status_code == 200:
-        return response.json()
+        try:
+            return response.json()
+        except json.JSONDecodeError:
+            raise ValueError('There is problems with data, try again')
+        except ValueError:
+            raise ValueError('Unexpected error, try again')
     elif response.status_code == 400:
         raise ValueError('Please check correctness of the city name and try again')
     elif response.status_code == 401:
