@@ -55,9 +55,6 @@ def get_data(city, API):
 
 
 
-
-# print(json.dumps(data, indent = 2))
-
 def show_data(data):
     print(
 f'''{data['resolvedAddress'].title()}
@@ -66,7 +63,9 @@ f'''{data['resolvedAddress'].title()}
 🌡️ Today: {data['days'][0]['tempmin']}°C — {data['days'][0]['tempmax']}°C
 ☁️ {data['days'][0]['conditions'].title()}
 📝 {data['days'][0]['description'].title()}
-🌅 Sunrise: {data['days'][0]['sunrise']} | 🌇 Sunset: {data['days'][0]['sunset']}'''
+🌅 Sunrise: {data['days'][0]['sunrise']} | 🌇 Sunset: {data['days'][0]['sunset']}
+
+Enter a new city or q to quit below'''
 )
     
 
@@ -77,7 +76,4 @@ def show_help():
   /help    - show this help
   <city>   - get current day's weather for the specified city (e.g. "Almaty", "London")'''
 )
-
-# data = get_data('almaty', load_key())
-# show_data(data)
  

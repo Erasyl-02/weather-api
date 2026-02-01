@@ -3,19 +3,21 @@ import logic
 
 def main(city):
     try:
-        while city in ['q', '/help']:
+        while True:
             if city == 'q':
                 return
-            if city == '/help':
+            elif city == '/help':
                 logic.show_help()
                 city = input('> ').strip()
-        try:
-            key = logic.load_key()
-            data = logic.get_data(city, key)
-        except (ValueError, ConnectionError, RuntimeError) as e:
-            print(e)
-            return
-        logic.show_data(data)
+                continue
+            try:
+                key = logic.load_key()
+                data = logic.get_data(city, key)
+            except (ValueError, ConnectionError, RuntimeError) as e:
+                print(e)
+                return
+            logic.show_data(data)
+            city = input('> ').strip()
     except Exception:
          print('Unexpected Error, try again')
          return
