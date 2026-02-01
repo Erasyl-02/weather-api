@@ -71,7 +71,12 @@ f'''{data['resolvedAddress'].title()}
     
 
 def show_help():
-    return
+    print(
+'''Available commands:
+  q        - exit the program
+  /help    - show this help
+  <city>   - get current day's weather for the specified city (e.g. "Almaty", "London")'''
+)
 
 # data = get_data('almaty', load_key())
 # show_data(data)

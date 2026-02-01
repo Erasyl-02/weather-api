@@ -3,11 +3,12 @@ import logic
 
 def main(city):
     try:
-        if city == 'q':
-            return
-        if city == '/help':
-            logic.show_help()
-            return
+        while city in ['q', '/help']:
+            if city == 'q':
+                return
+            if city == '/help':
+                logic.show_help()
+                city = input('> ').strip()
         try:
             key = logic.load_key()
             data = logic.get_data(city, key)
@@ -29,5 +30,5 @@ Please type your city below (or /help for more)"""
     city = input('> ').strip()
     while not city:
             print('Please type name of a city')
-            city = input('>').strip()
+            city = input('> ').strip()
     main(city)
