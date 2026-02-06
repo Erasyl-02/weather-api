@@ -1,10 +1,9 @@
-import requests
-from dotenv import load_dotenv
 import os
 import json
 
+import requests
 
-load_dotenv()
+
 
 def load_key():
     API = os.environ.get('API_KEY')
@@ -56,8 +55,7 @@ def get_data(city, API):
 
 
 def show_data(data):
-    print(
-f'''{data['resolvedAddress'].title()}
+    return f'''{data['resolvedAddress'].title()}
 📅 Date: {data['days'][0]['datetime']}
 🌡️ Now: {data['currentConditions']['temp']}°C (feels like {data['currentConditions']['feelslike']}°C)
 🌡️ Today: {data['days'][0]['tempmin']}°C — {data['days'][0]['tempmax']}°C
@@ -66,7 +64,6 @@ f'''{data['resolvedAddress'].title()}
 🌅 Sunrise: {data['days'][0]['sunrise']} | 🌇 Sunset: {data['days'][0]['sunset']}
 
 Enter a new city or q to quit below'''
-)
     
 
 def show_help():

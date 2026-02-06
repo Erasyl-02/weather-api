@@ -1,4 +1,10 @@
+from dotenv import load_dotenv
+load_dotenv()
+
 import logic
+import cache
+
+
 
 
 def main(city):
@@ -12,14 +18,19 @@ def main(city):
                 continue
             try:
                 key = logic.load_key()
-                data = logic.get_data(city, key)
+                cached_data = cache.get_from_cache(city.lower())
+                if cached_data:
+                    print(cached_data)
+                else:
+                    data = logic.get_data(city, key)
+                    print(logic.show_data(data))
+                    cache.save_to_cache(city.lower(), logic.show_data(data))
             except (ValueError, ConnectionError, RuntimeError) as e:
                 print(e)
                 return
-            logic.show_data(data)
             city = input('> ').strip()
     except Exception:
-         print('Unexpected Error, try again')
+         print('Unexpected Error, try againn')
          return
     
 
