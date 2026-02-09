@@ -10,3 +10,4 @@ app = FastAPI()
 @app.get('/')
 def welcome() -> str:
     return 'Welcome to the Weather App'
+    

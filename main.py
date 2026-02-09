@@ -7,7 +7,7 @@ import cache
 
 
 
-def main(city):
+def main(city:str) -> str:
     try:
         while True:
             if city == 'q':

@@ -5,7 +5,7 @@ import requests
 
 
 
-def load_key():
+def load_key() -> str:
     API = os.environ.get('API_KEY')
     if not API:
         raise ValueError('Api key doesnt exist in .env')
@@ -14,7 +14,7 @@ def load_key():
     
 
     
-def get_data(city, API):
+def get_data(city:str, API:str) -> dict:
     try:
         url = f'https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/{city}?'
         params = {
@@ -54,7 +54,7 @@ def get_data(city, API):
 
 
 
-def show_data(data):
+def show_data(data:dict) -> str:
     return f'''{data['resolvedAddress'].title()}
 📅 Date: {data['days'][0]['datetime']}
 🌡️ Now: {data['currentConditions']['temp']}°C (feels like {data['currentConditions']['feelslike']}°C)
@@ -66,7 +66,7 @@ def show_data(data):
 Enter a new city or q to quit below'''
     
 
-def show_help():
+def show_help() -> str:
     print(
 '''Available commands:
   q        - exit the program
