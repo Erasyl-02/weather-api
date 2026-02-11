@@ -7,7 +7,7 @@ import cache
 
 
 
-def main(city:str) -> str:
+def main(city:str) -> None:
     try:
         while True:
             if city == 'q':
@@ -20,11 +20,12 @@ def main(city:str) -> str:
                 key = logic.load_key()
                 cached_data = cache.get_from_cache(city.lower())
                 if cached_data:
-                    print(cached_data)
+                    print(logic.show_data(cached_data))
                 else:
                     data = logic.get_data(city, key)
-                    print(logic.show_data(data))
-                    cache.save_to_cache(city.lower(), logic.show_data(data))
+                    filtered = logic.filtered_data(data)
+                    print(logic.show_data(filtered))
+                    cache.save_to_cache(city.lower(), filtered)
             except (ValueError, ConnectionError, RuntimeError) as e:
                 print(e)
                 return

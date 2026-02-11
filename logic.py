@@ -1,3 +1,7 @@
+# from dotenv import load_dotenv
+# load_dotenv()
+
+
 import os
 import json
 
@@ -48,6 +52,19 @@ def get_data(city:str, API:str) -> dict:
         raise RuntimeError('Weather service is temporarily unavailable, try again later')
     else:
         raise RuntimeError('Unexpected error, weather service is temporarily unavailable, try again later')
+    
+
+def filtered_data(data:dict) -> dict:
+    return{'city': data.get('resolvedAddress'),
+           'today': data.get('days', [{}])[0].get('datetime', 'Unknown'),
+           'current_temp': data.get('currentConditions', {}).get('temp', 'Unknown'),
+           'feels_like': data.get('currentConditions', {}).get('feelslike', 'Unknown'),
+           'today_temp_min': data.get('days', [{}])[0].get('tempmin', 'Unknown'),
+           'today_temp_max': data.get('days', [{}])[0].get('tempmax', 'Unknown'),
+           'condition': data.get('days', [{}])[0].get('conditions', 'Unknown'),
+           'description': data.get('days', [{}])[0].get('description', 'Unknown'),
+           'sunrise_time': data.get('days', [{}])[0].get('sunrise', 'Unknown'),
+           'sunset_time': data.get('days', [{}])[0].get('sunset', 'Unknown')}
 
 
 
@@ -55,18 +72,18 @@ def get_data(city:str, API:str) -> dict:
 
 
 def show_data(data:dict) -> str:
-    return f'''{data['resolvedAddress'].title()}
-📅 Date: {data['days'][0]['datetime']}
-🌡️ Now: {data['currentConditions']['temp']}°C (feels like {data['currentConditions']['feelslike']}°C)
-🌡️ Today: {data['days'][0]['tempmin']}°C — {data['days'][0]['tempmax']}°C
-☁️ {data['days'][0]['conditions'].title()}
-📝 {data['days'][0]['description'].title()}
-🌅 Sunrise: {data['days'][0]['sunrise']} | 🌇 Sunset: {data['days'][0]['sunset']}
+    return f'''{data['city'].title()}
+📅 Date: {data['today']}
+🌡️ Now: {data['current_temp']}°C (feels like {data['feels_like']}°C)
+🌡️ Today: {data['today_temp_min']}°C — {data['today_temp_max']}°C
+☁️ {data['condition'].title()}
+📝 {data['description'].title()}
+🌅 Sunrise: {data['sunrise_time']} | 🌇 Sunset: {data['sunset_time']}
 
 Enter a new city or q to quit below'''
     
 
-def show_help() -> str:
+def show_help():
     print(
 '''Available commands:
   q        - exit the program
@@ -74,3 +91,10 @@ def show_help() -> str:
   <city>   - get current day's weather for the specified city (e.g. "Almaty", "London")'''
 )
  
+# API = load_key()
+# data = get_data('almaty', API)
+# filtered = filtered_data(data)
+
+# # print(json.dumps(filtered, indent=4))
+# print(show_data(filtered))
+
