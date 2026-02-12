@@ -22,8 +22,9 @@ def main(city:str) -> None:
                 if cached_data:
                     print(logic.show_data(cached_data))
                 else:
-                    data = logic.get_data(city, key)
-                    filtered = logic.filtered_data(data)
+                    response = logic.get_data(city, key)
+                    data = logic.validate_data(response)
+                    filtered = logic.filter_data(data)
                     print(logic.show_data(filtered))
                     cache.save_to_cache(city.lower(), filtered)
             except (ValueError, ConnectionError, RuntimeError) as e:

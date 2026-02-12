@@ -18,7 +18,7 @@ def load_key() -> str:
     
 
     
-def get_data(city:str, API:str) -> dict:
+def get_data(city:str, API:str):
     try:
         url = f'https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/{city}?'
         params = {
@@ -28,39 +28,42 @@ def get_data(city:str, API:str) -> dict:
             'contentType': 'json'
         }
         response = requests.get(url, params=params, timeout=5)
+        return response
     except requests.exceptions.ConnectionError:
         raise ConnectionError('Please check your internet connection')
     except requests.exceptions.RequestException:
         raise ConnectionError('Issues with connection, try again later')
     
-    if response.status_code == 200:
+
+def validate_data(data):
+    if data.status_code == 200:
         try:
-            return response.json()
+            return data.json()
         except json.JSONDecodeError:
             raise ValueError('There is problems with data, try again')
         except ValueError:
             raise ValueError('Unexpected error, try again')
-    elif response.status_code == 400:
+    elif data.status_code == 400:
         raise ValueError('Please check correctness of the city name and try again')
-    elif response.status_code == 401:
+    elif data.status_code == 401:
         raise ValueError('Please check your API key correctness in .env')
-    elif response.status_code == 404:
+    elif data.status_code == 404:
         raise RuntimeError('Technical issue, try again later')
-    elif response.status_code == 429:
+    elif data.status_code == 429:
         raise RuntimeError('Too many requests, try again later')
-    elif response.status_code == 500:
+    elif data.status_code == 500:
         raise RuntimeError('Weather service is temporarily unavailable, try again later')
     else:
         raise RuntimeError('Unexpected error, weather service is temporarily unavailable, try again later')
     
 
-def filtered_data(data:dict) -> dict:
+def filter_data(data:dict) -> dict:
     return{'city': data.get('resolvedAddress'),
            'today': data.get('days', [{}])[0].get('datetime', 'Unknown'),
-           'current_temp': data.get('currentConditions', {}).get('temp', 'Unknown'),
-           'feels_like': data.get('currentConditions', {}).get('feelslike', 'Unknown'),
-           'today_temp_min': data.get('days', [{}])[0].get('tempmin', 'Unknown'),
-           'today_temp_max': data.get('days', [{}])[0].get('tempmax', 'Unknown'),
+           'current_temp': str(data.get('currentConditions', {}).get('temp', 'Unknown')),
+           'feels_like': str(data.get('currentConditions', {}).get('feelslike', 'Unknown')),
+           'today_temp_min': str(data.get('days', [{}])[0].get('tempmin', 'Unknown')),
+           'today_temp_max': str(data.get('days', [{}])[0].get('tempmax', 'Unknown')),
            'condition': data.get('days', [{}])[0].get('conditions', 'Unknown'),
            'description': data.get('days', [{}])[0].get('description', 'Unknown'),
            'sunrise_time': data.get('days', [{}])[0].get('sunrise', 'Unknown'),
