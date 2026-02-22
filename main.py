@@ -3,6 +3,7 @@ load_dotenv()
 
 import logic
 import cache
+import exceptions
 
 
 
@@ -27,7 +28,7 @@ def main(city:str) -> None:
                     filtered = logic.filter_data(data)
                     print(logic.show_data(filtered))
                     cache.save_to_cache(city.lower(), filtered)
-            except (ValueError, ConnectionError, RuntimeError) as e:
+            except (ValueError, ConnectionError, exceptions.ApiException) as e:
                 print(e)
                 return
             city = input('> ').strip()

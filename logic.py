@@ -7,6 +7,8 @@ import json
 
 import requests
 
+import exceptions
+
 
 
 def load_key() -> str:
@@ -44,17 +46,17 @@ def validate_data(data):
         except ValueError:
             raise ValueError('Unexpected error, try again')
     elif data.status_code == 400:
-        raise ValueError('Please check correctness of the city name and try again')
+        raise exceptions.BadRequestError('Please check correctness of the city name and try again')
     elif data.status_code == 401:
-        raise ValueError('Please check your API key correctness in .env')
+        raise exceptions.AuthenticationError('Please check your API key correctness in .env')
     elif data.status_code == 404:
-        raise RuntimeError('Technical issue, try again later')
+        raise exceptions.EndpointError('Technical issue, try again later')
     elif data.status_code == 429:
-        raise RuntimeError('Too many requests, try again later')
+        raise exceptions.TooManyRequestsError('Too many requests, try again later')
     elif data.status_code == 500:
-        raise RuntimeError('Weather service is temporarily unavailable, try again later')
+        raise exceptions.ExternalServerError('Weather service is temporarily unavailable, try again later')
     else:
-        raise RuntimeError('Unexpected error, weather service is temporarily unavailable, try again later')
+        raise exceptions.ApiException('Unexpected error, weather service is temporarily unavailable, try again later')
     
 
 def filter_data(data:dict) -> dict:

@@ -4,6 +4,7 @@ load_dotenv()
 
 import logic
 import cache
+import exceptions
 
 app = FastAPI()
 
@@ -24,5 +25,5 @@ def get_weather(city: str='almaty') -> dict[str,str]:
             filtered = logic.filter_data(data)
             cache.save_to_cache(city.lower(), filtered)
             return filtered
-    except (ValueError, ConnectionError, RuntimeError) as e:
+    except (ValueError, ConnectionError, exceptions.ApiException) as e:
         raise HTTPException(status_code=404, detail=str(e))
